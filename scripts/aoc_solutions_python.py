@@ -5,12 +5,13 @@ Created on Thu Dec 31 07:36:10 2020
 @author: heslinr1
 """
 # <codecell> Day 1
-
+import os 
+print(os.getcwd())
 import itertools as it
 
-with open("../inputs/input1.txt") as inpt:
+with open("./inputs/input1.txt") as inpt:
     inpt = [int(line) for line in inpt]
-inpt.close()
+
 combs = list(it.combinations(inpt, 2))
 
 for combo in combs:
@@ -36,9 +37,9 @@ print(ans2)
 
 #<codecell Day 2>
 import re
-with open("../inputs/input2.txt") as inpt:
+with open("./inputs/input2.txt") as inpt:
     raw = inpt.readlines()
-inpt.close()
+
 def validate(rnge, char, password):
 
     if rnge[0] <= password.count(char) <= rnge[1]:
@@ -83,9 +84,9 @@ print(ans2)
 
 # <codecell> Day 3
 import functools as ft
-with open("../inputs/input3.txt"):
+with open("./inputs/input3.txt") as inpt:
   inpt = [line.rstrip("\n") for line in inpt]
-inpt.close()
+
 wrap = len(inpt[1]) 
 col = 3
 count = 0
@@ -123,9 +124,9 @@ import re
 import numpy as np
 from functools import reduce
 
-with open("../inputs/input4.txt") as inpt:
+with open("./inputs/input4.txt") as inpt:
     raw = inpt.readlines()
-inpt.close()    
+   
 def filt(fields):
     needed= ["byr", "iyr", "eyr", "hgt", "hcl", "ecl", "pid"]
     return all(field in fields for field in needed)
@@ -178,10 +179,10 @@ print(sum(ans2))
 import re
 
 import re
-with open("../inputs/input5.txt") as inpt:
+with open("./inputs/input5.txt") as inpt:
     raw = inpt.readlines()
     raw = [line.rstrip("\n") for line in raw]
-inpt.close()
+
 def convert_binary(stri):
     stri = [re.sub("B|R", "1", line) for line in stri]
     stri = [re.sub("[A-Z]", "0", line) for line in stri]
@@ -214,22 +215,23 @@ print(ans2)
 # <codecell Day 6>
 
 import collections as coll
+
 def count_alls(stri):
     num_people = stri.count("\n")
     stri = stri.replace("\n", "")
     alls = len(list(filter(lambda x: x == num_people, coll.Counter(stri).values())))
     return alls
-with open("../inputs/input6.txt") as inpt:   
+with open("./inputs/input6.txt") as inpt:   
   inpt = [re.sub("(?<=[a-z])\n", "", i) for i in inpt]
-inpt.close()
-inpt = str(ft.reduce(lambda x, y: x+y, inpt))
-inpt = inpt.split("\n")
 
-counts = [len(set(stri)) for stri in inpt]
+cleaned= str(ft.reduce(lambda x, y: x+y, inpt))
+cleaned = cleaned.split("\n")
+
+counts = [len(set(stri)) for stri in cleaned]
 ans1 = sum(counts)
 print(ans1)
 
-by_grp = [re.sub("^\n$", ",", i) for i in readInput(day =6)]
+by_grp = [re.sub("^\n$", ",", i) for i in inpt]
 by_grp =  str(ft.reduce(lambda x, y: x+y, by_grp))
 by_grp=by_grp.split(",")
 
@@ -247,7 +249,7 @@ def run_code(instr, nums, swap = None, replace = None):
   
     if swap:
         instr[swap] = replace
-    print(instr)
+
     prevs = [None]
     i = 0
     acc = 0
@@ -261,7 +263,7 @@ def run_code(instr, nums, swap = None, replace = None):
         else:
             i = i + 1
         print(i)
-        #print(acc)
+    
         if i == len(instr):  
            return acc
     return False
@@ -289,9 +291,9 @@ def ans2(instr):
            res =  run_code(instr=instr.copy(), nums=nums, swap = i, replace = "jmp")
         if res != False:
             return res
-with open("../inputs/input8.txt") as inpt:
+with open("./inputs/input8.txt") as inpt:
   inpt = [line.rstrip("\n") for line in inpt]
-inpt.close()
+
 
 inpt = [re.split("\s", line) for line in inpt]
 inpt = list(zip(*inpt))
@@ -325,17 +327,14 @@ def breakXMAS2(nums, step, target):
     
     for i in range(0, stop):
         slices[i] =  nums[i:min(i+step, len(nums))]
-    #print(slices)
-    #print(maxmins)
+  
     for slic in slices:
         if sum(slic) == target:
             return max(slic) + min(slic)
     return "Failed"
     
-with open("../inputs/input9.txt") as inpt:
+with open("./inputs/input9.txt") as inpt:
   inpt = [int(line) for line in inpt]
-inpt.close()
-
 
 ans1 = breakXMAS(inpt)
 distincts = len(inpt) - len(set(inpt))
@@ -358,9 +357,9 @@ import functools as ft
 import rle 
 nums = [0]
 
-with open("../inputs/input10.txt") as inpt:
+with open("./inputs/input10.txt") as inpt:
   inpt = [i.rstrip("\n") for i in inpt]
-  inpt.close()
+
 
 for i, line in enumerate(inpt):
     nums.append(int(line))
@@ -391,7 +390,6 @@ MAX_DIFF = 3
 cheat_dict = {1: 1, 2: 2, 3: 4, 4: 7}
 streaks = rle.encode(diffs)
 runs= [streaks[1][i] for i in range(len(streaks[0])) if streaks[0][i] != 3]
-#filtered = [yield(num) if (nums[i+1] - nums[i-1] != 2 * MAX_DIFF else pass for i in range(1, len(nums)-1)]
 permutes = [cheat_dict.get(num) for num in runs]
 
 
@@ -406,6 +404,7 @@ import numpy as np
 import functools as ft
 import itertools as it
 import collections as col
+
 def extract_dict(sublist):
     
     mask = re.findall("[01X]+", sublist[0]).pop(0)
@@ -472,14 +471,14 @@ def mutate_mem(mask, mem):
     out.sort()
     return out
     
-with open("../inputs/input14.txt") as inpt:
+with open("./inputs/input14.txt") as inpt:
   inpt = [i.rstrip("\n") for i in inpt]
-inpt.close()
+
 
 #GLobal dict of distinct addresses
 addr = str(ft.reduce(lambda x, y: x + y, inpt))
 addr = set(re.findall("\[(\d+)\]", addr))
-mem_di ={}
+mem_di = {}
 
 #Dicts of changes for each program
 splits = [i for i, line in enumerate(inpt) if line[0:2] == "ma"]
@@ -492,4 +491,5 @@ for i in programs:
     assign_mem(i)
 ans2 = sum(mem_di.values())
 print(ans2)
+
 # <codecell>
