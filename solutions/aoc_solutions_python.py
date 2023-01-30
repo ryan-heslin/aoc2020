@@ -13,6 +13,7 @@ import itertools as it
 with open("./inputs/input1.txt") as inpt:
     inpt = [int(line) for line in inpt]
 
+
 combs = list(it.combinations(inpt, 2))
 
 for combo in combs:
@@ -424,6 +425,7 @@ MAX_DIFF = 3
 
 cheat_dict = {1: 1, 2: 2, 3: 4, 4: 7}
 streaks = rle.encode(diffs)
+# value-run encoding
 runs = [streaks[1][i] for i in range(len(streaks[0])) if streaks[0][i] != 3]
 permutes = [cheat_dict.get(num) for num in runs]
 
