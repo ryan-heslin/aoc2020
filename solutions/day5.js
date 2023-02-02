@@ -37,3 +37,5 @@ seat_ids.sort();
 console.log(seat_ids);
 const part2 = find_id(seat_ids);
 console.log(part2);
+
+modulus = Math.prod(...buses)

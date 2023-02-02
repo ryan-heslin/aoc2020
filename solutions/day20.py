@@ -7,3 +7,4 @@
 # Try each tile that meets it on left
 # Fill first row, then second, stopping if no tile matches all new edges
 # Maybe feasible if few neighbors for each tile
+# Map edges to binary numbers
