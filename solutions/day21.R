@@ -1,4 +1,5 @@
 library(tidyverse)
+
 input <- read_lines("inputs/day21.txt") %>%
     tibble(temp = .) %>%
     separate(temp, into = c("ingredient", "allergy"), sep = "\\s(?=\\()") %>%
