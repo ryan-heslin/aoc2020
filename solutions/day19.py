@@ -56,7 +56,7 @@ rules = parse(rules)
 part1 = sum(list(resolve(string, rules) for string in strings))
 print(part1)
 
-
+# Only need to try all repeat lengths for rule 8, since 11 always matches exactly
 new_rules = """8: 42 | 42 8
 11: 42 31 | 42 11 31"""
 new_rules_parsed = parse(new_rules.splitlines())
