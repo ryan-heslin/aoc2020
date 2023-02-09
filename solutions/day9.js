@@ -31,7 +31,6 @@ function solve_part2(numbers, target) {
         for (let i = 0; i < ranges.length; i++) {
             ranges[i].push(numbers[i + interval])
             if (ranges[i].reduce((x, y) => x + y) == target) {
-                console.log(ranges[i]);
                 return ranges[i];
             }
         }

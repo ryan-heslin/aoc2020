@@ -445,12 +445,12 @@ import collections as col
 
 def extract_dict(sublist):
 
-    mask = re.findall("[01X]+", sublist[0]).pop(0)
+    mask = re.findall("[01x]+", sublist[0]).pop(0)
     data = [re.findall("\d+", line) for line in sublist[1:]]
     di = {line[0]: line[1] for line in data}
     di["mask"] = mask
     if len(data) - len(set([line[0] for line in data])) != 0:
-        print("Dupes")
+        print("dupes")
     return di
 
 
@@ -458,9 +458,9 @@ def assign_mem(program):
 
     mask = list(program.get("mask"))
     del program["mask"]
-    # swaps = [i for i, char in enumerate(mask) if char != "X"]
+    # swaps = [i for i, char in enumerate(mask) if char != "x"]
 
-    # Convert each val to binary, sub in from bitmask, update global dict
+    # convert each val to binary, sub in from bitmask, update global dict
     for k, v in program.items():
         val = v
         # replace = list(bin(int(v))[2:].rjust(len(mask), "0"))
@@ -468,23 +468,23 @@ def assign_mem(program):
         # for i in swaps:
         # replace[i] = mask[i]
         addrs = list(map(str, mutate_mem(mask=mask.copy(), mem=k)))
-        # Change to previously modifed value if addreess already changed
+        # change to previously modifed value if addreess already changed
         if k in mem_di.keys():
             val = mem_di[k]
 
         # replace = int(str(ft.reduce(lambda x, y: x + y, replace)), base = 2)
-        # Update each address in master dict
+        # update each address in master dict
         for addr in addrs:
             # if addr in mem_di.keys():
-            # print("Overwrite " + str(mem_di[k2]) + " at " + k2 + " with " + str(v2))
+            # print("overwrite " + str(mem_di[k2]) + " at " + k2 + " with " + str(v2))
             mem_di[addr] = int(val)
 
 
 def mutate_mem(mask, mem):
 
-    # Find float bits and convert to base 10 values
+    # find float bits and convert to base 10 values
     binar = list(bin(int(mem))[2:].rjust(len(mask), "0"))
-    swaps = [len(mask) - i - 1 for i, char in enumerate(mask) if char == "X"]
+    swaps = [len(mask) - i - 1 for i, char in enumerate(mask) if char == "x"]
 
     combos = [
         list(list(combo) for combo in it.combinations(swaps, r=i))
@@ -493,18 +493,18 @@ def mutate_mem(mask, mem):
     summands = [sum(map(lambda x: 2**x, i)) for sublist in combos for i in sublist]
 
     # handle 0 as base case
-    # Sub in new values to create base case
+    # sub in new values to create base case
     for i, char in enumerate(mask):
 
         if char == "1":
             binar[i] = "1"
 
-        elif char == "X":
+        elif char == "x":
             binar[i] = "0"
 
     base = int(str(ft.reduce(lambda x, y: x + y, binar)), base=2)
 
-    # Return unmodified if no new addresses
+    # return unmodified if no new addresses
     if len(summands) == 0:
         return [base]
     out = [base + add for add in summands]
@@ -517,12 +517,12 @@ with open("./inputs/input14.txt") as inpt:
     inpt = [i.rstrip("\n") for i in inpt]
 
 
-# GLobal dict of distinct addresses
+# global dict of distinct addresses
 addr = str(ft.reduce(lambda x, y: x + y, inpt))
 addr = set(re.findall("\[(\d+)\]", addr))
 mem_di = {}
 
-# Dicts of changes for each program
+# dicts of changes for each program
 splits = [i for i, line in enumerate(inpt) if line[0:2] == "ma"]
 start_mems = {
     re.findall("\[(\d+)\]", line).pop(): int(re.findall("\s(\d+)", line).pop())
