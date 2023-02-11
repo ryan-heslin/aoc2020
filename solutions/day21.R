@@ -11,25 +11,6 @@ combined <- mapply(expand.grid, ingredient = ingredients, allergen = allergens, 
     }) |>
     do.call(what = rbind)
 
-
-input <- read_lines("inputs/day21.txt") %>%
-    tibble(temp = .) %>%
-    separate(temp, into = c("ingredient", "allergy"), sep = "\\s(?=\\()") %>%
-    mutate(allergy = str_remove_all(allergy, "\\(contains|,|\\)$") %>%
-        str_trim(.)) %>%
-    mutate(across(everything(), ~ str_split(.x, "\\s"))) %>%
-    # mutate(across(everything(), set_names, nm = 1:36)) %>%
-    {
-        map2_dfr(.$ingredient, .$allergy, ~ expand.grid(ingred = .x, allerg = .y), .id = "grp")
-    } %>%
-    arrange(grp) %>%
-    group_by(grp) %>%
-    mutate(contained = n_distinct(allerg)) %>%
-    ungroup() %>%
-    mutate(across(c(ingred, allerg), as.character))
-
-
-
 ingreds <- unique(input$ingred)
 observed_groups <- tapply(combined$group, combined$allergen, unique)
 combinations <- interaction(combined$ingredient, combined$allergen, drop = TRUE)
@@ -60,7 +41,6 @@ print(part1)
 
 reduced <- definite
 while (anyDuplicated(reduced$ingredient)) {
-    # browser()
     counts <- table(reduced$ingredient)
     solved <- reduced[counts[reduced$ingredient] == 1, ]
     reduced <- rbind(reduced[!reduced$allergen %in% solved$allergen, ], solved)
